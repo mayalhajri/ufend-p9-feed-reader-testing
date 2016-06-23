@@ -4,7 +4,13 @@
  * all of the tests that will be run against your application.
  */
 
-/* We're placing all of our tests within the $() function,
+"use strict";
+
+/* jshint jasmine: true */
+/* global $, allFeeds */
+
+/*
+ * We're placing all of our tests within the $() function,
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
  */
@@ -27,10 +33,31 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
+		/* A test that loops through each feed in the allFeeds
+		 * object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+		it('Each Feed has a URL defined and the URL is not empty', function() {
+			allFeeds.forEach(function(feed) {
+				expect(feed.url).toBeDefined();
+				expect(typeof feed.url).toMatch('string');
+				expect(feed.url.trim().length).not.toBe(0);
+			});
+		});
+
+
+		/* A test that loops through each feed in the allFeeds object
+		 * and ensures it has a name defined and that the name is not
+		 * empty.
+		 */
+		it('have a name defined and the name is not empty', function() {
+			allFeeds.forEach(function(feed) {
+				expect(feed.name).toBeDefined();
+				expect(typeof feed.name).toMatch('string');
+				expect(feed.name.trim().length).not.toBe(0);
+			});
+		});
+	});
 
 
         /* TODO: Write a test that loops through each feed
