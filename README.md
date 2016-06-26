@@ -1,39 +1,93 @@
-# Project Overview
 
-In this project you are given a web-based application that reads RSS feeds. The original developer of this application clearly saw the value in testing, they've already included [Jasmine](http://jasmine.github.io/) and even started writing their first test suite! Unfortunately, they decided to move on to start their own company and we're now left with an application with an incomplete test suite. That's where you come in.
+## ufend-p9-feed-reader-testing
+
+### Introduction
+
+This repository contains a copy of the Feed Reader Testing Project from the Udacity Front End Web Developer Nanodegree.
+
+#### About this application:
+
+* includes a JSON object to configure a set of feeds - each having a name and url.
+* provides a menu for users to change the selected feed to display.
+* displays the headings of the articles from the selected feed in a list format with each providing a link through to original article on the source website.
+* includes a Jasmine suite of tests for test-driven application development.
+
+Modifications have been made by Roger Woodroofe to complete the Feed Reader Testing project for the Udacity Front End Web Developer Nanodegree.
+
+More information on the project requirements are available at: [Udacity Front End Web Developer Nanodegree overview](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001#).
 
 
-## Why this Project?
+#### Project Overview
+
+This project provided a web-based application that reads RSS feeds. The original developer of the application clearly saw the value in testing as they included [Jasmine](http://jasmine.github.io/) and wrote their first test suite. The project task was to take over the project following the departure of original developer, and complete a set of tests using Jasmine.
+
+
+##### Why this Project?
 
 Testing is an important part of the development process and many organizations practice a standard of development known as "test-driven development". This is when developers write tests first, before they ever start developing their application. All the tests initially fail and then they start writing application code to make these tests pass.
 
 Whether you work in an organization that uses test-driven development or in an organization that uses tests to make sure future feature development doesn't break existing features, it's an important skill to have!
 
-
-## What will I learn?
-
-You will learn how to use Jasmine to write a number of tests against a pre-existing application. These will test the underlying business logic of the application as well as the event handling and DOM manipulation.
-
-
-## How will this help my career?
+The Project provided an opportunity to learn how to use Jasmine to write a number of tests against a pre-existing application. These will test the underlying business logic of the application as well as the event handling and DOM manipulation.
 
 * Writing effective tests requires analyzing multiple aspects of an application including the HTML, CSS and JavaScript - an extremely important skill when changing teams or joining a new company.
 * Good tests give you the ability to quickly analyze whether new code breaks an existing feature within your codebase, without having to manually test all of the functionality.
 
 
-# How will I complete this project?
+### Project Information
 
-1. Download the [required project assets](http://github.com/udacity/frontend-nanodegree-feedreader).
-2. Review the functionality of the application within your browser.
-3. Explore the application's HTML (*./index.html*), CSS (*./css/style.css*) and JavaScript (*./js/app.js*) to gain an understanding of how it works.
-4. Explore the Jasmine spec file in *./jasmine/spec/feedreader.js*
-5. Edit the allFeeds variable in *./js/app.js* to make the provided test fail and see how Jasmine visualizes this failure in your application.
-6. Return the allFeeds variable to a passing state.
-7. Write a test that loops through each feed in the allFeeds object and ensures it has a URL defined and that the URL is not empty.
-8. Write a test that loops through each feed in the allFeeds object and ensures it has a name defined and that the name is not empty.
-9. Write a new test suite named "The menu".
-10. Write a test that ensures the menu element is hidden by default. You'll have to analyze the HTML and the CSS to determine how we're performing the hiding/showing of the menu element.
-11. Write a test that ensures the menu changes visibility when the menu icon is clicked. This test should have two expectations: does the menu display when clicked and does it hide when clicked again.
-12. Write a test that ensures when the loadFeed function is called and completes its work, there is at least a single .entry element within the .feed container. Remember, loadFeed() is asynchronous so this test wil require the use of Jasmine's beforeEach and asynchronous done() function.
-13. Write a test that ensures when a new feed is loaded by the loadFeed function that the content actually changes. Remember, loadFeed() is asynchronous.
-14. When complete - all of your tests should pass.
+#### Third Party Requirements:
+
+* [Jasmine 2.1.2](http://jasmine.github.io/2.1/introduction.html) was included in the repository and remains in use.
+
+The index.html requires internet access to download the following third party resources:
+* [Google Font API - Roboto family font](https://fonts.google.com/specimen/Roboto?query=Roboto)
+* [JQuery](http://jquery.com/) 2.1.1
+* [Handlebars.js](http://handlebarsjs.com/) 2.0.0
+* [Google API loader](https://developers.google.com/loader/)
+
+Note: Copyright and license text of third party modules are included in their source code.
+
+#### How to Use This Project
+##### Repository Structure
+
+Repository root folder `/` contains the source files and this `README.md`
+
+Jasmine spec file containing modifications carried out for this project and used for the purposes of testing is located in `/jasmine/spec/feedreader.js`
+
+##### A. Obtaining a copy of this Repository
+
+1. (optional) Fork or clone the [repository](https://github.com/rogyw/ufend-P9-feed-reader-testing.git) on GitHub.
+1. Use git to clone the repository to your local system. `git clone https://github.com/rogyw/ufend-P9-feed-reader-testing.git`
+1. View the file `\index.html` in your browser.
+
+
+##### B. Running a Local Http Web Server
+
+(Optional) A web server is not required to view the application, however if you wish to test with a local devlopment http web server:
+
+###### HTTP/1 using Python simple http server
+
+Python provides  the ability to easily serve a folder via an http web service on your local computer.
+1. Download and install Python from [https://www.python.org/downloads/](https://www.python.org/downloads/).
+2. At the console command line prompt, change to the folder containing the set of files to be used.
+```cd /my/path/to/files/```
+3. At the console command line prompt, type `python -m SimpleHTTPServer 8080` to serve the current directories files to `http://localhost:8080/`
+Note: On some systems including Windows 10, the command required the simple http server has changed to: `python -m http.server 8080`
+4. Open a web browser and view `http://localhost:8080/`
+
+## To Do
+
+* Recommend applying update to Jasmine 2.1.3 for several fixes if you intend to use toBeUndefined().
+
+## Changelog
+
+0.1 initial project submission
+
+## Contacts
+
+###Udacity
+[Udacity website](https://www.udacity.com/)
+
+###Roger Woodroofe
+Contact Roger Woodroofe through [Rogyw on GitHub](https://github.com/rogyw) or email [rogyw@yahoo.co.nz](mailto:rogyw@yahoo.co.nz)
