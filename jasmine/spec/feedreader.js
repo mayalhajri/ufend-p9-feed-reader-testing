@@ -9,7 +9,6 @@
 /* jshint jasmine: true */
 /* global $, allFeeds, loadFeed */
 
-
 /* All of this functionality is heavily reliant upon the DOM, so we
  * place our code in the $() function to ensure it doesn't execute
  * until the DOM is ready.
@@ -60,11 +59,14 @@ $(function() {
 		});
 	});
 
-	/* Test suite named "The menu" */
-	describe('The Menu', function() {
+
+	/* Test suite named "The menu"
+	 */
+	describe('The menu', function() {
 		// Select all elements with class slide-menu
 		var menuElement = $('.slide-menu');
 		var menuIconElement = $('.menu-icon-link');
+
 
 		/* Test to check there is one and only one menu
 		 */
@@ -72,11 +74,13 @@ $(function() {
 			expect(menuElement.length).toEqual(1);
 		});
 
+
 		/* Test that ensures the menu element is hidden by default.
 		 */
 		it('menu hidden by default', function() {
 			expect($('body').hasClass('menu-hidden')).toBe(true);
 		});
+
 
 		/* test that ensures the menu changes visibility when the
 		 *  menu icon is clicked.
@@ -99,22 +103,28 @@ $(function() {
 
 			// Check that the menu-hidden class has been added to body
 			expect($('body').hasClass('menu-hidden')).toBe(true);
-
 		});
 
-		// Check the menu is actually visible to the user
+
+		/* Check the menu is actually visible to the user
+		 */
 		describe('visibility', function() {
 
+			/* Test the menu is not shown in the document when hidden
+			 */
 			it('positions menu content completely to left of document when hidden', function() {
+
 				//Prepare for Test
 				expect($('body').hasClass('menu-hidden')).toBe(true);
-
 				var elementOffset = menuElement.offset();
 
 				expect(elementOffset.left + menuElement.outerWidth()).toBeLessThan(0);
 			});
 
+			/* Test the menu is shown on left margin folowing transition
+			 */
 			describe('after transition', function() {
+
 				//Prepare for Test
 				beforeEach(function(done) {
 					//Inspiration reference: https://davidwalsh.name/css-animation-callback
@@ -122,6 +132,8 @@ $(function() {
 					menuIconElement.trigger('click');
 				});
 
+				/* Test position of menu when visible
+				 */
 				it('positions menu content at document left when visible', function(done) {
 					expect($('body').hasClass('menu-hidden')).toBe(false);
 
@@ -140,6 +152,7 @@ $(function() {
 		});
 	});
 
+
 	/* TODO: Write a new test suite named "Initial Entries" */
 
 	/* TODO: Write a test that ensures when the loadFeed
@@ -149,6 +162,7 @@ $(function() {
 	 * the use of Jasmine's beforeEach and asynchronous done() function.
 	 */
 
+
 	/* TODO: Write a new test suite named "New Feed Selection"
 
 	/* TODO: Write a test that ensures when a new feed is loaded
@@ -157,10 +171,3 @@ $(function() {
 	 */
 
 }());
-
-/* TODO: Write a new test suite named "New Feed Selection" */
-/*
- * TODO: Write a test that ensures when a new feed is loaded
- * by the loadFeed function that the content actually changes.
- * Remember, loadFeed() is asynchronous.
- */
