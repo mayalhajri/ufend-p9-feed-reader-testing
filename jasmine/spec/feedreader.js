@@ -15,7 +15,10 @@
  */
 $(function() {
 
-	/* This is our first test suite - a test suite just contains
+	/* ===========================================================
+	 * Test Suite: RSS Feeds
+	 * ===========================================================
+	 * This is our first test suite - a test suite just contains
 	 * a related set of tests. This suite is all about the RSS
 	 * feeds definitions, the allFeeds variable in our application.
 	 */
@@ -60,15 +63,17 @@ $(function() {
 	});
 
 
-	/* Test suite named "The menu"
+	/* ===========================================================
+	 * Test Suite: The Menu.
+	 * ===========================================================
 	 */
-	describe('The menu', function() {
+	describe('The Menu', function() {
 		// Select all elements with class slide-menu
 		var menuElement = $('.slide-menu');
 		var menuIconElement = $('.menu-icon-link');
 
 
-		/* Test to check there is one and only one menu
+		/* Test to check there is one and only one menu.
 		 */
 		it('has one slide-menu only', function() {
 			expect(menuElement.length).toEqual(1);
@@ -82,9 +87,8 @@ $(function() {
 		});
 
 
-		/* test that ensures the menu changes visibility when the
-		 *  menu icon is clicked.
-		 *  This test has two expectations:
+		/* Test that ensures the menu changes visibility when the
+		 *  menu icon is clicked. This test has two expectations:
 		 *  the menu displays when clicked and hides when clicked again.
 		 */
 		it('menu changes visibility when menu icon clicked.', function() {
@@ -106,11 +110,11 @@ $(function() {
 		});
 
 
-		/* Check the menu is actually visible to the user
+		/* Check the menu is actually visible to the user.
 		 */
 		describe('visibility', function() {
 
-			/* Test the menu is not shown in the document when hidden
+			/* Test the menu is not shown in the document when hidden.
 			 */
 			it('positions menu content completely to left of document when hidden', function() {
 
@@ -121,7 +125,7 @@ $(function() {
 				expect(elementOffset.left + menuElement.outerWidth()).toBeLessThan(0);
 			});
 
-			/* Test the menu is shown on left margin folowing transition
+			/* Test the menu is shown on left margin folowing transition.
 			 */
 			describe('after transition', function() {
 
@@ -132,7 +136,7 @@ $(function() {
 					menuIconElement.trigger('click');
 				});
 
-				/* Test position of menu when visible
+				/* Test position of menu when visible.
 				 */
 				it('positions menu content at document left when visible', function(done) {
 					expect($('body').hasClass('menu-hidden')).toBe(false);
@@ -153,7 +157,9 @@ $(function() {
 	});
 
 
-	/* Test suite for Initial Entries
+	/* ===========================================================
+	 * Test Suite: Initial Entries.
+	 * ===========================================================
 	 */
 	describe('Initial Entries', function() {
 
@@ -162,6 +168,7 @@ $(function() {
 		beforeEach(function(done) {
 			loadFeed(0, done);
 		});
+
 
 		/* Test loadFeed function can be called and complete its work
 		 * there is at least a single .entry element within the .feed
@@ -174,7 +181,7 @@ $(function() {
 		});
 
 
-		/* Test loadFeed updates the header title to display the feed name
+		/* Test loadFeed updates the header title to display the feed name.
 		 */
 		it('displays the feed heading', function(done) {
 			var feedName = allFeeds[0].name;
@@ -184,11 +191,94 @@ $(function() {
 		});
 	});
 
-	/* TODO: Write a new test suite named "New Feed Selection"
 
-	/* TODO: Write a test that ensures when a new feed is loaded
-	 * by the loadFeed function that the content actually changes.
-	 * Remember, loadFeed() is asynchronous.
+	/* ===========================================================
+	 * Test Suite: New Feed Selection.
+	 * ===========================================================
 	 */
+	describe('New Feed Selection', function() {
+
+		/* TEST_FEED_ID specifies the array index (starts at 0) to use
+		 * for the new feed selection.
+		 */
+		var TEST_FEED_ID = 1;
+
+		/* Test it has more than one feed to enable a different feed
+		 * to be selected.
+		 */
+		it('has more than one feed to select', function() {
+			var feeds = $('.feed-list').children();
+
+			//check there is at least two feeds to select from
+			expect(feeds.length).toBeGreaterThan(1);
+
+			// Check the number of feeds exceeds our selected array TEST_FEED_ID
+			expect(feeds.length).toBeGreaterThan(TEST_FEED_ID);
+		});
+
+
+		describe('Update of Feed', function() {
+
+			var TEST_TEXT = '**TEST*UdacityFENDP9FeedReader*TEST**';
+
+			/* Before test, set up a known value in feed entry headings to check
+			 * it is overwritten. Assumes its possible two different feeds
+			 * could have the same most recent feed entry and therefore cannot
+			 * reliably be used to detect change.
+			 */
+			beforeEach(function(done) {
+				// select array of all feed headings
+				var feedEntryHeadings = $('.entry h2');
+
+				// Update all headings with testing text for detection purposes
+				feedEntryHeadings.html(TEST_TEXT);
+
+				//Load the second feed with async done callback
+				loadFeed(1, done);
+			});
+
+			afterEach(function() {
+				//After test, return back to default
+				loadFeed(0);
+			});
+
+			/* test that ensures when a new feed is loaded
+			 * by the loadFeed function that the content actually changes.
+			 */
+			it('changes entries in feed', function(done) {
+
+				var items = $('.entry');
+
+				/* check there are feed entries */
+				expect(items.length).toBeGreaterThan(0);
+
+				/* Check for inserted TEST_TEXT to see if it exists in headings.
+				 */
+				var feedEntryHeadingsMatched = $(".entry h2:contains('" + TEST_TEXT + "')");
+				expect(feedEntryHeadingsMatched.length).toEqual(0);
+
+				done();
+			});
+
+
+			/* Test loadFeed updates the header title to display the feed name.
+			 */
+			it('updates the feed heading', function(done) {
+				var feedName = allFeeds[TEST_FEED_ID].name;
+				var headerTitle = $('.header-title');
+				expect(headerTitle.html().trim()).toMatch(feedName.trim());
+				done();
+			});
+		});
+
+
+		/* Test clicking on another menu item changes the feed
+		 */
+
+		/* When a link in our feedList is clicked on, we want to hide
+		 * the menu, load the feed, and prevent the default action
+		 * (following the link) from occurring.
+		 */
+	});
 
 }());
