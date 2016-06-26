@@ -78,11 +78,17 @@ Note: On some systems including Windows 10, the command required the simple http
 
 ## To Do
 
-* Recommend applying update to Jasmine 2.1.3 for several fixes if you intend to use toBeUndefined().
+* Recommend applying update to Jasmine 2.1.3 for several fixes including fix for toBeUndefined() and removal of `Jasmine__TopLevel__Suite` message.
 
 ## Changelog
 
-0.1 initial project submission
+
+1.1 initial project submission for Front End Web Developer Nanodegree
+* Updates README.md (this file).
+* Add jasmine test suites for existing application functionailty.
+
+1.0 original repository forked for project
+
 
 ## Contacts
 
