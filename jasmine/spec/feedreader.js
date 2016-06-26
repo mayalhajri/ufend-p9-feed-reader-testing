@@ -154,6 +154,38 @@ $(function() {
 				});
 			});
 		});
+
+
+		/* Test to ensure when a link in our feedList menu is clicked on,
+		 * the menu is hidden indicating successful trigger of feed selection
+		 */
+		describe('Menu hidden after item selection', function() {
+
+			// Get all the link items out of the menu and count
+			var menuFeedItems = $('.feed-list').find('a');
+			var testID = 1;
+
+			beforeEach(function() {
+				// Click on the Menu Icon to display the menu.
+				var menuIconElement = $('.menu-icon-link');
+				menuIconElement.trigger('click');
+
+				// Click on one of the feeds in menu
+				menuFeedItems[testID].click();
+			});
+
+			afterEach(function() {
+				// Tidy up and return to default feed
+				menuFeedItems[0].click();
+			});
+
+
+			/* Test the menu element is now hidden.
+			 */
+			it('menu hidden by default', function() {
+				expect($('body').hasClass('menu-hidden')).toBe(true);
+			});
+		});
 	});
 
 
@@ -195,6 +227,8 @@ $(function() {
 	/* ===========================================================
 	 * Test Suite: New Feed Selection.
 	 * ===========================================================
+	 * test that ensures when a new feed is loaded
+	 * by the loadFeed function that the content actually changes.
 	 */
 	describe('New Feed Selection', function() {
 
@@ -203,7 +237,8 @@ $(function() {
 		 */
 		var TEST_FEED_ID = 1;
 
-		/* Test it has more than one feed to enable a different feed
+
+		/* Test there is more than one feed to enable a different feed
 		 * to be selected.
 		 */
 		it('has more than one feed to select', function() {
@@ -217,6 +252,8 @@ $(function() {
 		});
 
 
+		/* Test loadFeed updates displayed feed entries and heading
+		 */
 		describe('Update of Feed', function() {
 
 			var TEST_TEXT = '**TEST*UdacityFENDP9FeedReader*TEST**';
@@ -242,6 +279,7 @@ $(function() {
 				loadFeed(0);
 			});
 
+
 			/* test that ensures when a new feed is loaded
 			 * by the loadFeed function that the content actually changes.
 			 */
@@ -261,24 +299,17 @@ $(function() {
 			});
 
 
-			/* Test loadFeed updates the header title to display the feed name.
+			/* test that ensures when a new feed is loaded
+			 * by the loadFeed function that the header title is updated
+			 * to display the feed name.
 			 */
-			it('updates the feed heading', function(done) {
+			it('updates the heading to feed name', function(done) {
 				var feedName = allFeeds[TEST_FEED_ID].name;
 				var headerTitle = $('.header-title');
 				expect(headerTitle.html().trim()).toMatch(feedName.trim());
 				done();
 			});
 		});
-
-
-		/* Test clicking on another menu item changes the feed
-		 */
-
-		/* When a link in our feedList is clicked on, we want to hide
-		 * the menu, load the feed, and prevent the default action
-		 * (following the link) from occurring.
-		 */
 	});
 
 }());
