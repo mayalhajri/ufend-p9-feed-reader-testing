@@ -7,14 +7,15 @@
 "use strict";
 
 /* jshint jasmine: true */
-/* global $, allFeeds */
+/* global $, allFeeds, loadFeed */
 
-/*
- * We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
+
+/* All of this functionality is heavily reliant upon the DOM, so we
+ * place our code in the $() function to ensure it doesn't execute
+ * until the DOM is ready.
  */
 $(function() {
+
 	/* This is our first test suite - a test suite just contains
 	 * a related set of tests. This suite is all about the RSS
 	 * feeds definitions, the allFeeds variable in our application.
@@ -59,13 +60,21 @@ $(function() {
 		});
 	});
 
-
 	/* Test suite named "The menu" */
 	describe('The Menu', function() {
-		//TODO	- check "by default"
+		// Select all elements with class slide-menu
+		var menuElement = $('.slide-menu');
+		var menuIconElement = $('.menu-icon-link');
+
+		/* Test to check there is one and only one menu
+		 */
+		it('has one slide-menu only', function() {
+			expect(menuElement.length).toEqual(1);
+		});
+
 		/* Test that ensures the menu element is hidden by default.
 		 */
-		it('hides the menu element by default.', function() {
+		it('menu hidden by default', function() {
 			expect($('body').hasClass('menu-hidden')).toBe(true);
 		});
 
@@ -76,49 +85,56 @@ $(function() {
 		 */
 		it('menu changes visibility when menu icon clicked.', function() {
 
-			var menuElement = $('.menu-icon-link');
-
-			// Ensure Menu is hidden before starting other tests
+			//Prepare for Test
 			expect($('body').hasClass('menu-hidden')).toBe(true);
 
 			// Trigger the click on the menu Button
-			menuElement.trigger('click');
+			menuIconElement.trigger('click');
 
 			// Check that the menu-hidden class has been removed from body
 			expect($('body').hasClass('menu-hidden')).toBe(false);
 
-			// Check the menu is actually visible to the user
-			describe('menu visible', function() {
-				// Select all elements with class slide-menu
-				var menuElements = $('.slide-menu');
-
-				it('menu top-left at document top-left', function() {
-					// Check each element marked as slide-menu
-					menuElements.forEach(function(element) {
-						var elementOffset = element.offset();
-						expect(elementOffset.left).toEqual(0);
-						expect(elementOffset.top).toEqual(0);
-					});
-				});
-			});
-
 			// Trigger the click on the menu Button
-			menuElement.trigger('click');
+			menuIconElement.trigger('click');
 
 			// Check that the menu-hidden class has been added to body
 			expect($('body').hasClass('menu-hidden')).toBe(true);
 
-			// Check the menu is off viewport
-			describe('menu not visible', function() {
-				// Select all elements with class slide-menu
-				var menuElements = $('.slide-menu');
+		});
 
-				it('menu right edge to left of document left', function() {
-					// Check each element marked as slide-menu
-					menuElements.forEach(function(element) {
-						var elementOffset = element.offset();
-						expect(elementOffset.left + element.width()).toBeLessThan(0);
-					});
+		// Check the menu is actually visible to the user
+		describe('visibility', function() {
+
+			it('positions menu content completely to left of document when hidden', function() {
+				//Prepare for Test
+				expect($('body').hasClass('menu-hidden')).toBe(true);
+
+				var elementOffset = menuElement.offset();
+
+				expect(elementOffset.left + menuElement.outerWidth()).toBeLessThan(0);
+			});
+
+			describe('after transition', function() {
+				//Prepare for Test
+				beforeEach(function(done) {
+					//Inspiration reference: https://davidwalsh.name/css-animation-callback
+					menuElement[0].addEventListener("transitionend", done, false);
+					menuIconElement.trigger('click');
+				});
+
+				it('positions menu content at document left when visible', function(done) {
+					expect($('body').hasClass('menu-hidden')).toBe(false);
+
+					// Check Menu is in correct position
+					var elementOffset = menuElement.offset();
+					expect(elementOffset.left).toEqual(0);
+
+					// Tidy Up after test
+					menuElement[0].removeEventListener("transitionend", done, false);
+					menuIconElement.trigger('click');
+
+					// Complete Async Test
+					done();
 				});
 			});
 		});
@@ -135,8 +151,16 @@ $(function() {
 
 	/* TODO: Write a new test suite named "New Feed Selection"
 
-	    /* TODO: Write a test that ensures when a new feed is loaded
-	     * by the loadFeed function that the content actually changes.
-	     * Remember, loadFeed() is asynchronous.
-	     */
+	/* TODO: Write a test that ensures when a new feed is loaded
+	 * by the loadFeed function that the content actually changes.
+	 * Remember, loadFeed() is asynchronous.
+	 */
+
 }());
+
+/* TODO: Write a new test suite named "New Feed Selection" */
+/*
+ * TODO: Write a test that ensures when a new feed is loaded
+ * by the loadFeed function that the content actually changes.
+ * Remember, loadFeed() is asynchronous.
+ */
