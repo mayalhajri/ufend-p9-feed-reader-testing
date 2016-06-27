@@ -206,20 +206,18 @@ $(function() {
 		 * there is at least a single .entry element within the .feed
 		 * container.
 		 */
-		it('displays at least one item in feed', function(done) {
+		it('displays at least one item in feed', function() {
 			var items = container.find('.entry');
 			expect(items.length).toBeGreaterThan(0);
-			done();
 		});
 
 
 		/* Test loadFeed updates the header title to display the feed name.
 		 */
-		it('displays the feed heading', function(done) {
+		it('displays the feed heading', function() {
 			var feedName = allFeeds[0].name;
 			var headerTitle = $('.header-title');
 			expect(headerTitle.html().trim()).toMatch(feedName.trim());
-			done();
 		});
 	});
 
@@ -283,7 +281,7 @@ $(function() {
 			/* test that ensures when a new feed is loaded
 			 * by the loadFeed function that the content actually changes.
 			 */
-			it('changes entries in feed', function(done) {
+			it('changes entries in feed', function() {
 
 				var items = $('.entry');
 
@@ -294,8 +292,6 @@ $(function() {
 				 */
 				var feedEntryHeadingsMatched = $(".entry h2:contains('" + TEST_TEXT + "')");
 				expect(feedEntryHeadingsMatched.length).toEqual(0);
-
-				done();
 			});
 
 
@@ -303,11 +299,10 @@ $(function() {
 			 * by the loadFeed function that the header title is updated
 			 * to display the feed name.
 			 */
-			it('updates the heading to feed name', function(done) {
+			it('updates the heading to feed name', function() {
 				var feedName = allFeeds[TEST_FEED_ID].name;
 				var headerTitle = $('.header-title');
 				expect(headerTitle.html().trim()).toMatch(feedName.trim());
-				done();
 			});
 		});
 	});
