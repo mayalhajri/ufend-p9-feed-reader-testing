@@ -97,13 +97,13 @@ $(function() {
 			expect($('body').hasClass('menu-hidden')).toBe(true);
 
 			// Trigger the click on the menu Button
-			menuIconElement.trigger('click');
+			menuIconElement.click();
 
 			// Check that the menu-hidden class has been removed from body
 			expect($('body').hasClass('menu-hidden')).toBe(false);
 
 			// Trigger the click on the menu Button
-			menuIconElement.trigger('click');
+			menuIconElement.click();
 
 			// Check that the menu-hidden class has been added to body
 			expect($('body').hasClass('menu-hidden')).toBe(true);
@@ -134,7 +134,7 @@ $(function() {
 				beforeEach(function(done) {
 					//Inspiration reference: https://davidwalsh.name/css-animation-callback
 					menuElement[0].addEventListener("transitionend", done, false);
-					menuIconElement.trigger('click');
+					menuIconElement.click();
 				});
 
 				/* Test position of menu when visible.
@@ -148,7 +148,7 @@ $(function() {
 
 					// Tidy Up after test
 					menuElement[0].removeEventListener("transitionend", done, false);
-					menuIconElement.trigger('click');
+					menuIconElement.click();
 
 					// Complete Async Test
 					done();
@@ -169,7 +169,7 @@ $(function() {
 			beforeEach(function() {
 				// Click on the Menu Icon to display the menu.
 				var menuIconElement = $('.menu-icon-link');
-				menuIconElement.trigger('click');
+				menuIconElement.click();
 
 				// Click on one of the feeds in menu
 				menuFeedItems[testID].click();
