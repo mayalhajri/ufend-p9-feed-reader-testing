@@ -122,7 +122,8 @@ $(function() {
 				expect($('body').hasClass('menu-hidden')).toBe(true);
 				var elementOffset = menuElement.offset();
 
-				expect(elementOffset.left + menuElement.outerWidth()).toBeLessThan(0);
+				//Check the Menu has been moved sufficiently to the left to make it hidden
+				expect(elementOffset.left + menuElement.outerWidth()).not.toBeGreaterThan(0);
 			});
 
 			/* Test the menu is shown on left margin folowing transition.
