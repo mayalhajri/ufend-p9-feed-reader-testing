@@ -402,4 +402,34 @@ $(function() {
 	});
 	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 
+
+	/* ===========================================================
+	 * Test Suite: Check all Feeds load sequentially
+	 * ===========================================================
+	 */
+
+	// Reference: For the following test suite, http://goo.gl/2u4XOI was helpful identifying
+	// function arguments - solution uses variable i in parent function scope
+	function testFeedLoad(i) {
+		describe('Feed #' + i, function() {
+			var titlePrevious = "",
+				titleCurrent;
+
+			beforeEach(function(done) {
+				loadFeed(i, done);
+			});
+
+			it('changes title on load', function() {
+				titleCurrent = $('.header-title').text();
+				expect(titlePrevious).not.toMatch(titleCurrent);
+				titlePrevious = titleCurrent;
+			});
+		});
+	}
+
+	//Load all Feeds in reverse order - finishing on default feed 0
+	for (var i = allFeeds.length - 1;
+		(i >= 0); i--) {
+		testFeedLoad(i);
+	}
 }());
