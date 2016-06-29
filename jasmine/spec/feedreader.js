@@ -266,7 +266,7 @@ $(function() {
 			 */
 			beforeEach(function(done) {
 				// select array of all feed headings
-				var feedEntryHeadings = $('.entry h2');
+				var feedEntryHeadings = $('.entry').find('h2');
 
 				// Update all headings with testing text for detection purposes
 				feedEntryHeadings.html(TEST_TEXT);
@@ -308,88 +308,98 @@ $(function() {
 				expect(headerTitle.html().trim()).toMatch(feedName.trim());
 			});
 		});
+	});
 
+	/* ===========================================================
+	 * Test Suite: Sequential loading of feeds
+	 * ===========================================================
+	 */
 
-		/* Test sequential loading of feeds
-		 * Reference: Based on code structure outline recommended in Udacity project reviewer
-		 */
-		describe('Sequential Loading of Feeds', function() {
-			var feedFirst = {};
-			var feedSecond = {};
+	/* Test sequential loading of feeds
+	 * Reference: Based on code structure outline recommended in Udacity project reviewer
+	 */
+	var originalTimeout;
+	originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
-			beforeEach(function(done) {
-				//Load the first feed with async done callback
-				loadFeed(0, function() {
-					// Store values in feedFirst structure
-					feedFirst.title = $('.header-title').text();
-					feedFirst.items = $('.feed').children('.entry-link');
-					feedFirst.count = feedFirst.items.length;
-					feedFirst.itemURLs = feedFirst.items.map(function() {
-						return this.href.trim();
-					});
-					feedFirst.itemHeadings = feedFirst.items.find('h2').map(function() {
-						return this.innerText.trim();
-					});
+	describe('Sequential Feed Load', function() {
+		var feedFirst = {};
+		var feedSecond = {};
 
-					// Now, load the second feed
-					loadFeed(1, function() {
-						// Store values in feedSecond structure
-						feedSecond.title = $('.header-title').text();
-						feedSecond.items = $('.feed').children('.entry-link');
-						feedSecond.count = feedSecond.items.length;
-						feedSecond.itemURLs = feedSecond.items.map(function() {
-							return this.href.trim();
-						});
-						feedSecond.itemHeadings = feedSecond.items.find('h2').map(function() {
-							return this.innerText.trim();
-						});
-						done();
-					});
+		beforeEach(function(done) {
+			//Load the first feed with async done callback
+			loadFeed(0, function() {
+				// Store values in feedFirst structure
+				feedFirst.title = $('.header-title').text();
+				feedFirst.items = $('.entry-link');
+
+				// Now, load the second feed
+				loadFeed(1, function() {
+					// Store values in feedSecond structure
+					feedSecond.title = $('.header-title').text();
+					feedSecond.items = $('.entry-link');
+					done();
 				});
 			});
+		});
 
-			afterEach(function(done) {
-				//After test, return back to default
-				loadFeed(0, done);
+		afterEach(function(done) {
+			//After test, return back to default
+			loadFeed(0, done);
+		});
+
+		/* test that ensures when a new feed is loaded
+		 * by the loadFeed function that the content actually changes.
+		 *
+		 * Note:
+		 * A valid case is to have two different feeds including the same set of articles,
+		 * URLs, and Titles. To reduce the possibilty of false test indication from this case,
+		 * all articles in the feed with the lowest article count are compared 1:1 with the
+		 * other feed. If no difference it detected in that set, an error is raised to indicate
+		 * possibility of an issue.
+		 */
+		it('changes entries in feed', function() {
+			// Check Title has changed
+			expect(feedSecond.title).not.toMatch(feedFirst.title);
+
+			// check there are feed entries
+			feedFirst.count = feedFirst.items.length;
+			feedSecond.count = feedSecond.items.length;
+			expect(feedFirst.count).toBeGreaterThan(0);
+			expect(feedSecond.count).toBeGreaterThan(0);
+
+			// Check for correct number of URLs for the number of items
+			feedFirst.itemURLs = feedFirst.items.map(function() {
+				return this.href;
 			});
+			feedSecond.itemURLs = feedSecond.items.map(function() {
+				return this.href;
+			});
+			expect(feedFirst.itemURLs.length).toEqual(feedFirst.count);
+			expect(feedSecond.itemURLs.length).toEqual(feedSecond.count);
 
-			/* test that ensures when a new feed is loaded
-			 * by the loadFeed function that the content actually changes.
-			 *
-			 * Note:
-			 * A valid case is to have two different feeds including the same set of articles,
-			 * URLs, and Titles. To reduce the possibilty of false test indication from this case,
-			 * all articles in the feed with the lowest article count are compared 1:1 with the
-			 * other feed. If no difference it detected in that set, an error is raised to indicate
-			 * possibility of an issue.
-			 */
-			it('changes entries in feed', function() {
-				// check there are feed entries
-				expect(feedFirst.items.length).toBeGreaterThan(0);
-				expect(feedSecond.items.length).toBeGreaterThan(0);
+			// Check for correct number of Headings for the number of items
+			feedFirst.itemHeadings = feedFirst.items.find('h2').map(function() {
+				return this.innerText.trim();
+			});
+			feedSecond.itemHeadings = feedSecond.items.find('h2').map(function() {
+				return this.innerText.trim();
+			});
+			expect(feedFirst.itemHeadings.length).toEqual(feedFirst.count);
+			expect(feedSecond.itemHeadings.length).toEqual(feedSecond.count);
 
-				// Check for correct number of Headings and URLs for the number of items
-				expect(feedFirst.itemURLs.length).toEqual(feedFirst.count);
-				expect(feedSecond.itemURLs.length).toEqual(feedSecond.count);
-
-				expect(feedFirst.itemHeadings.length).toEqual(feedFirst.count);
-				expect(feedSecond.itemHeadings.length).toEqual(feedSecond.count);
-
-				// Check Title has changed
-				expect(feedSecond.title).not.toMatch(feedFirst.title);
-
-				//Check feed items have changed
-				var changeDetected = false;
-				for (var i = 0;
-					(i < feedSecond.count) && (i < feedFirst.count) && (changeDetected === false); i++) {
-					if ((feedSecond.itemHeadings[i] != feedFirst.itemHeadings[i]) ||
-						(feedSecond.itemURLs[i] != feedFirst.itemURLs[i])) {
-						changeDetected = true;
-					}
+			//Check feed items have changed
+			var changeDetected = false;
+			for (var i = 0;
+				(i < feedSecond.count) && (i < feedFirst.count) && (changeDetected === false); i++) {
+				if ((feedSecond.itemHeadings[i] != feedFirst.itemHeadings[i]) ||
+					(feedSecond.itemURLs[i] != feedFirst.itemURLs[i])) {
+					changeDetected = true;
 				}
-				expect(changeDetected).toBe(true);
-			});
+			}
+			expect(changeDetected).toBe(true);
 		});
 	});
+	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 
 }());
