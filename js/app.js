@@ -74,6 +74,9 @@ function init() {
                  }
                },
        error: function (result, status, err){
+                 var errorTxt = "Error in Ajax Request: " + err;
+                 console.log(errorTxt);
+                 alert(errorTxt);
                  //run only the callback without attempting to parse result due to error
                  if (cb) {
                      cb();
