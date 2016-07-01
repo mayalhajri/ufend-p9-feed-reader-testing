@@ -38,12 +38,12 @@ The Project provided an opportunity to learn how to use Jasmine to write a numbe
 
 #### Third Party Requirements:
 
-* [Jasmine 2.1.2](http://jasmine.github.io/2.1/introduction.html) was included in the repository and remains in use.
+* [Jasmine 2.4.1](http://jasmine.github.io/2.4/introduction.html)
 
 The index.html requires internet access to download the following third party resources:
 * [Google Font API - Roboto family font](https://fonts.google.com/specimen/Roboto?query=Roboto)
-* [JQuery](http://jquery.com/) 2.1.1
-* [Handlebars.js](http://handlebarsjs.com/) 2.0.0
+* [JQuery](http://jquery.com/) 3.0.0
+* [Handlebars.js](http://handlebarsjs.com/) 4.0.5
 * [Google API loader](https://developers.google.com/loader/)
 
 Note: Copyright and license text of third party modules are included in their source code.
@@ -77,8 +77,7 @@ Note: On some systems including Windows 10, the command required the simple http
 4. Open a web browser and view `http://localhost:8080/`
 
 ## To Do
-
-* Recommend applying update to Jasmine 2.1.3 for several fixes including fix for toBeUndefined() and removal of `Jasmine__TopLevel__Suite` message.
+ - Add improved AJAX API Error handling.
 
 ## Changelog
 
