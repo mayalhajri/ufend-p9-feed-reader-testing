@@ -14,7 +14,7 @@
 
 // USE_UDACITY_RSSTOJSON boolean to switch between
 // default behaviour (true) or alternative provider (false)
-var USE_UDACITY_RSSTOJSON = false;
+var USE_UDACITY_RSSTOJSON = true;
 // DEBUG boolean to enable console output and alert on error
 var DEBUG = true;
 
@@ -109,10 +109,9 @@ function loadFeed(id, cb) {
 		},
 		error: function(result, status, err) {
 			//run only the callback without attempting to parse result due to error
-			if (DEBUG) {
-				console.log(result);
-				alert("API Call Error: " + err);
-			}
+			var errorTxt = "Error in Ajax Request: " + status + " - " + err;
+			console.log(errorTxt);
+			alert(errorTxt);
 			if (cb) {
 				cb();
 			}
