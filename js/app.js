@@ -14,7 +14,7 @@
 
 // USE_UDACITY_RSSTOJSON boolean to switch between
 // default behaviour (true) or alternative provider (false)
-var USE_UDACITY_RSSTOJSON = true;
+var USE_UDACITY_RSSTOJSON = false;
 // DEBUG boolean to enable console output and alert on error
 var DEBUG = true;
 
