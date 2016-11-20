@@ -15,9 +15,9 @@
  */
 $(function() {
 
-	/* ===========================================================
+	/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * Test Suite: RSS Feeds
-	 * ===========================================================
+	 * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * This is our first test suite - a test suite just contains
 	 * a related set of tests. This suite is all about the RSS
 	 * feeds definitions, the allFeeds variable in our application.
@@ -63,9 +63,9 @@ $(function() {
 	});
 
 
-	/* ===========================================================
+	/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * Test Suite: The Menu.
-	 * ===========================================================
+	 * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 */
 	describe('The Menu', function() {
 		// Select all elements with class slide-menu
@@ -190,9 +190,9 @@ $(function() {
 	});
 
 
-	/* ===========================================================
+	/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * Test Suite: Initial Entries.
-	 * ===========================================================
+	 * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 */
 	describe('Initial Entries', function() {
 
@@ -223,22 +223,22 @@ $(function() {
 	});
 
 
-	/* ===========================================================
+	/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * Test Suite: New Feed Selection.
-	 * ===========================================================
+	 * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * test that ensures when a new feed is loaded
 	 * by the loadFeed function that the content actually changes.
 	 */
 	describe('New Feed Selection', function() {
 
-		/* TEST_FEED_ID specifies the array index (starts at 0) to use
-		 * for the new feed selection.
+		/* TEST_FEED_ID - the array index id (starts at 0) of the allFeeds to use
+		 * from the menu feed list for the test new feed selection.
 		 */
 		var TEST_FEED_ID = 1;
 
 
-		/* Test there is more than one feed to enable a different feed
-		 * to be selected.
+		/* Test there is more than one feed in the menu feed-list, indicating it is
+		 * possible a different feed can be selected by the user.
 		 */
 		it('has more than one feed to select', function() {
 			var feeds = $('.feed-list').children();
@@ -246,7 +246,7 @@ $(function() {
 			//check there is at least two feeds to select from
 			expect(feeds.length).toBeGreaterThan(1);
 
-			// Check the number of feeds exceeds our selected array TEST_FEED_ID
+			// Check our TEST_FEED_ID is a valid feed to test
 			expect(feeds.length).toBeGreaterThan(TEST_FEED_ID);
 		});
 
@@ -272,7 +272,7 @@ $(function() {
 				feedEntryHeadings.html(TEST_TEXT);
 
 				//Load the second feed with async done callback
-				loadFeed(1, done);
+				loadFeed(TEST_FEED_ID, done);
 			});
 
 			afterEach(function(done) {
@@ -310,18 +310,14 @@ $(function() {
 		});
 	});
 
-	/* ===========================================================
+	/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * Test Suite: Sequential loading of feeds
-	 * ===========================================================
+	 * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 */
 
 	/* Test sequential loading of feeds
 	 * Reference: Based on code structure outline recommended in Udacity project reviewer
 	 */
-	var originalTimeout;
-	originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-
 	describe('Sequential Feed Load', function() {
 		var feedFirst = {};
 		var feedSecond = {};
@@ -355,7 +351,7 @@ $(function() {
 		 * A valid case is to have two different feeds including the same set of articles,
 		 * URLs, and Titles. To reduce the possibilty of false test indication from this case,
 		 * all articles in the feed with the lowest article count are compared 1:1 with the
-		 * other feed. If no difference it detected in that set, an error is raised to indicate
+		 * other feed. If no difference is detected in that set, an error is raised to indicate
 		 * possibility of an issue.
 		 */
 		it('changes entries in feed', function() {
@@ -391,7 +387,7 @@ $(function() {
 			//Check feed items have changed
 			var changeDetected = false;
 			for (var i = 0;
-				(i < feedSecond.count) && (i < feedFirst.count) && (changeDetected === false); i++) {
+				(i < feedSecond.count) && (i < feedFirst.count) && (!changeDetected); i++) {
 				if ((feedSecond.itemHeadings[i] != feedFirst.itemHeadings[i]) ||
 					(feedSecond.itemURLs[i] != feedFirst.itemURLs[i])) {
 					changeDetected = true;
@@ -400,14 +396,12 @@ $(function() {
 			expect(changeDetected).toBe(true);
 		});
 	});
-	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 
 
-	/* ===========================================================
+	/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 * Test Suite: Check all Feeds load sequentially
-	 * ===========================================================
+	 * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	 */
-
 	// Reference: For the following test suite, http://goo.gl/2u4XOI was helpful identifying
 	// function arguments - solution uses variable i in parent function scope
 	function testFeedLoad(i) {
@@ -427,7 +421,7 @@ $(function() {
 		});
 	}
 
-	//Load all Feeds in reverse order - finishing on default feed 0
+	//Load each an every Feed in reverse order - finishing on default feed 0
 	for (var i = allFeeds.length - 1;
 		(i >= 0); i--) {
 		testFeedLoad(i);
